@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIA by Koester | Short-Term Rental Consulting · Vietnam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#1f2a23;--g2:#273329;
+  --gold:#e7d8b5;--gold2:#d4c49f;
+  --cream:#eceae2;--cream2:#e4e0d6;--cream3:#d8d4c8;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--g);color:var(--cream);-webkit-font-smoothing:antialiased}
+
+/* SNAP */
+.snap{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch}
+.snap::-webkit-scrollbar{display:none}
+.screen{height:100vh;scroll-snap-align:start;position:relative;overflow:hidden;display:flex;flex-direction:column}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.75rem 3.5rem;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--serif);font-size:1.1rem;color:var(--cream);text-decoration:none;font-style:italic;font-weight:300;letter-spacing:.04em;cursor:pointer;background:none;border:none}
+.logo b{font-style:normal;color:var(--gold);font-weight:400;font-size:1.35rem;letter-spacing:.06em}
+.nav-r{display:flex;gap:2rem;align-items:center}
+.na{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,242,234,.62);text-decoration:none;font-weight:300;transition:color .2s;background:none;border:none;cursor:pointer;font-family:var(--sans)}
+.na:hover{color:var(--gold)}
+.na.dk{color:var(--g)}
+.na.dk:hover{color:var(--g)}
+.nav-cta{display:inline-flex;align-items:center;gap:.55rem;background:var(--gold);color:var(--g);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:.6rem 1.25rem;font-weight:400;position:relative;overflow:hidden;font-family:var(--sans);transition:background .3s}
+.nav-cta::after{content:'';position:absolute;inset:0;background:var(--gold2);transform:translateX(-101%);transition:transform .38s var(--ease)}
+.nav-cta:hover::after{transform:none}
+.nav-cta span,.nav-cta em{position:relative;z-index:1;font-style:normal}
+.nav-cta em{display:inline-block;transition:transform .3s var(--ease)}
+.nav-cta:hover em{transform:translate(3px,-3px)}
+.nav-cta.dk{background:var(--g);color:var(--cream)}
+.nav-cta.dk::after{background:var(--g2)}
+
+/* DOTS */
+.dots{position:fixed;right:2.5rem;top:50%;transform:translateY(-50%);z-index:200;display:flex;flex-direction:column;gap:.75rem}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(231,216,181,.22);cursor:pointer;transition:all .3s;border:none}
+.dot.on{background:var(--gold);transform:scale(1.5)}
+.dot.dk{background:rgba(31,42,35,.18)}
+.dot.dk.on{background:var(--g);transform:scale(1.5)}
+
+/* SCROLL HINT */
+.sh{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:.4;transition:opacity .6s;pointer-events:none}
+.sh.hide{opacity:0}
+.sh span{font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:300}
+.sh::after{content:'';display:block;width:1px;height:2.5rem;background:rgba(231,216,181,.38);animation:drp 1.8s ease-in-out infinite}
+@keyframes drp{0%,100%{opacity:.35}50%{opacity:.75}}
+
+/* BUTTONS */
+.btn-g{display:inline-flex;align-items:center;gap:.85rem;background:var(--gold);color:var(--g);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:1rem 2.25rem;font-weight:400;position:relative;overflow:hidden;border:none;cursor:pointer;font-family:var(--sans)}
+.btn-g::after{content:'';position:absolute;inset:0;background:var(--gold2);transform:translateX(-101%);transition:transform .4s var(--ease)}
+.btn-g:hover::after{transform:none}
+.btn-g span,.btn-g em{position:relative;z-index:1;font-style:normal}
+.btn-g em{display:inline-block;transition:transform .3s var(--ease)}
+.btn-g:hover em{transform:translate(3px,-3px)}
+.btn-dk{display:inline-flex;align-items:center;gap:.85rem;background:var(--g);color:var(--cream);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:1rem 2.25rem;font-weight:400;position:relative;overflow:hidden;border:none;cursor:pointer;font-family:var(--sans)}
+.btn-dk::after{content:'';position:absolute;inset:0;background:var(--g2);transform:translateX(-101%);transition:transform .4s var(--ease)}
+.btn-dk:hover::after{transform:none}
+.btn-dk span,.btn-dk em{position:relative;z-index:1;font-style:normal}
+.btn-dk em{display:inline-block;transition:transform .3s var(--ease)}
+.btn-dk:hover em{transform:translate(3px,-3px)}
+.btn-ol{display:inline-flex;align-items:center;gap:.75rem;border:.5px solid rgba(231,216,181,.22);color:rgba(245,242,234,.5);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:1rem 2.25rem;font-weight:300;transition:border-color .3s,color .3s;background:none;cursor:pointer;font-family:var(--sans)}
+.btn-ol:hover{border-color:rgba(231,216,181,.6);color:rgba(245,242,234,.88)}
+.btn-ol-dk{display:inline-flex;align-items:center;gap:.75rem;border:.5px solid rgba(31,42,35,.18);color:rgba(31,42,35,.45);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;padding:1rem 2.25rem;font-weight:300;transition:border-color .3s,color .3s}
+.btn-ol-dk:hover{border-color:rgba(31,42,35,.5);color:rgba(31,42,35,.85)}
+
+/* ANIMATIONS */
+@keyframes su{to{transform:none}}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ══ SCREEN 01: HERO ══ */
+#s1{background:radial-gradient(ellipse 95% 80% at 52% 38%,#2a3d2e 0%,#1f2a23 58%);justify-content:flex-end;padding:0 3.5rem 8rem}
+.s1-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+
+/* ── Primary VIA mark: fills the screen, slow orbital drift ── */
+.s1-via-wrap{
+  position:absolute;top:50%;left:50%;
+  width:90vw;max-width:1140px;
+  transform:translate(-50%,-52%);
+  animation:via-drift 26s ease-in-out infinite;
+}
+.s1-via-wrap svg{width:100%;height:auto;display:block}
+
+/* ── Depth layer: smaller, offset, opposite phase ── */
+.s1-via-wrap2{
+  position:absolute;top:54%;left:48%;
+  width:40vw;max-width:500px;
+  transform:translate(-50%,-50%);
+  animation:via-drift2 34s ease-in-out infinite;
+}
+.s1-via-wrap2 svg{width:100%;height:auto;display:block}
+
+/* ── Per-letter stagger: each glyph breathes independently ── */
+.via-v{animation:via-letter 15s ease-in-out infinite}
+.via-i{animation:via-letter 15s ease-in-out 2.2s infinite}
+.via-a{animation:via-letter 15s ease-in-out 4.6s infinite}
+
+/* ── Subtle grounding line ── */
+.s1-hl{
+  position:absolute;bottom:28%;left:0;right:0;height:1px;
+  background:linear-gradient(to right,
+    transparent 0%,
+    rgba(231,216,181,.04) 20%,
+    rgba(231,216,181,.08) 50%,
+    rgba(231,216,181,.04) 80%,
+    transparent 100%);
+}
+
+/* ── Overlay: lighter in centre, denser at bottom ── */
+.s1-ov{
+  position:absolute;inset:0;z-index:1;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, transparent 0%, rgba(31,42,35,.28) 100%),
+    linear-gradient(to top,rgba(31,42,35,.97) 0%,rgba(31,42,35,.38) 48%,rgba(31,42,35,.06) 100%);
+}
+.s1-wm{display:none}
+
+/* ── Animations ── */
+/* Primary: slow elliptical orbit with gentle scale breath */
+@keyframes via-drift{
+  0%   {transform:translate(-50%,-52%) scale(1)}
+  18%  {transform:translate(-48.8%,-55.2%) scale(1.016)}
+  42%  {transform:translate(-51.2%,-49.2%) scale(1.024)}
+  68%  {transform:translate(-49.4%,-54.6%) scale(1.014)}
+  100% {transform:translate(-50%,-52%) scale(1)}
+}
+/* Depth: counter-phase, slightly contracts as primary expands */
+@keyframes via-drift2{
+  0%   {transform:translate(-50%,-50%) scale(1)}
+  32%  {transform:translate(-51.8%,-46.4%) scale(0.988)}
+  66%  {transform:translate(-48.4%,-53.8%) scale(0.982)}
+  100% {transform:translate(-50%,-50%) scale(1)}
+}
+/* Per-letter: subtle vertical breathing */
+@keyframes via-letter{
+  0%,100%{transform:translateY(0)}
+  50%    {transform:translateY(-5px)}
+}
+.s1-c{position:relative;z-index:2}
+.s1-tag{display:flex;align-items:center;gap:.85rem;margin-bottom:2rem;opacity:0;animation:fu .9s var(--ease) .25s forwards}
+.s1-bar{width:1.25rem;height:1px;background:var(--gold);opacity:.38}
+.s1-txt{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.52;font-weight:300}
+.s1-h1{font-family:var(--serif);font-weight:300;line-height:1.02;color:var(--cream);letter-spacing:-.02em;margin-bottom:2.75rem}
+.s1-h1 .rw{display:block;overflow:hidden}
+.s1-h1 .ri{display:block;transform:translateY(110%);animation:su .95s var(--ease) forwards}
+.s1-h1 .r1{font-size:clamp(3.5rem,8vw,8rem);animation-delay:.42s}
+.s1-h1 .r2{font-size:clamp(3.5rem,8vw,8rem);animation-delay:.56s;font-style:italic;color:var(--gold)}
+.s1-h1 .r3{font-size:clamp(1.5rem,2.8vw,2.8rem);animation-delay:.7s;color:rgba(245,242,234,.55)}
+.s1-bot{display:flex;justify-content:space-between;align-items:flex-end;opacity:0;animation:fu .9s var(--ease) .92s forwards}
+.s1-desc{font-size:.95rem;font-weight:300;color:rgba(245,242,234,.4);line-height:1.85;max-width:480px}
+.s1-btns{display:flex;gap:1rem;align-items:center}
+
+/* ══ SCREEN 02: SERVICES ══ */
+#s2{background:var(--cream2);color:var(--g);padding:7rem 3.5rem 3.5rem;gap:3rem}
+.s2-hd{display:flex;justify-content:space-between;align-items:flex-end}
+.s2-hd h2{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5.5rem);font-weight:300;line-height:1.04;letter-spacing:-.02em;color:var(--g)}
+.s2-hd h2 em{font-style:italic;color:rgba(31,42,35,.28)}
+.s2-sub{font-size:.88rem;font-weight:300;color:rgba(31,42,35,.4);line-height:1.85;max-width:260px;text-align:right}
+.s2-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(31,42,35,.08);flex:1}
+.svc{background:var(--cream2);padding:2.25rem 1.75rem;display:flex;flex-direction:column;cursor:pointer;position:relative;overflow:hidden}
+.svc::before{content:'';position:absolute;inset:0;background:var(--g);transform:translateY(101%);transition:transform .55s var(--ease)}
+.svc>*{position:relative;z-index:1;transition:color .3s}
+.svc:hover::before{transform:none}
+.svc:hover .svc-n,.svc:hover .svc-ti,.svc:hover .svc-bd,.svc:hover .svc-lk{color:var(--cream)}
+.svc:hover .svc-n{opacity:.18}
+.svc-n{font-family:var(--serif);font-size:.72rem;color:rgba(31,42,35,.18);letter-spacing:.06em;font-weight:300;margin-bottom:auto;padding-bottom:1.75rem}
+.svc-ti{font-family:var(--serif);font-size:1.45rem;font-weight:300;color:var(--g);line-height:1.15;margin-bottom:.75rem}
+.svc-bd{font-size:.78rem;font-weight:300;color:rgba(31,42,35,.42);line-height:1.78;flex:1}
+.svc-lk{display:inline-flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(31,42,35,.28);text-decoration:none;margin-top:1.25rem;font-weight:300;transition:color .3s,gap .25s}
+.svc:hover .svc-lk{gap:.85rem}
+
+/* ══ SCREEN 03: ABOUT ══ */
+#s3{background:var(--cream);flex-direction:row}
+.s3-l{flex:0 0 42%;background:var(--g);display:flex;flex-direction:column;justify-content:flex-end;padding:5rem 3rem;position:relative;overflow:hidden}
+.s3-bg{position:absolute;top:-2rem;left:-1rem;font-family:var(--serif);font-size:22rem;font-weight:300;color:rgba(245,242,234,.025);line-height:1;user-select:none;pointer-events:none;letter-spacing:-.05em}
+.s3-nm{font-family:var(--serif);font-size:2.2rem;font-weight:300;color:var(--cream);line-height:1.1;position:relative;z-index:1}
+.s3-nm em{display:block;font-style:italic;color:var(--gold);font-size:1rem;margin-top:.35rem}
+.s3-rl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,242,234,.22);position:relative;z-index:1;margin-top:.55rem;font-weight:300}
+.s3-tgs{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.75rem;position:relative;z-index:1}
+.s3-tg{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(231,216,181,.3);border:.5px solid rgba(231,216,181,.13);padding:.25rem .65rem;font-weight:300}
+.s3-q{font-family:var(--serif);font-size:1.3rem;font-style:italic;color:rgba(245,242,234,.48);line-height:1.4;border-left:1.5px solid rgba(231,216,181,.25);padding-left:1.2rem;margin-top:2.25rem;position:relative;z-index:1}
+.s3-cvbtn{display:inline-flex;align-items:center;gap:.6rem;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(231,216,181,.42);border:none;border-bottom:1px solid rgba(231,216,181,.18);padding-bottom:2px;margin-top:1.65rem;position:relative;z-index:1;background:none;cursor:pointer;font-family:var(--sans);font-weight:300;transition:color .25s,border-color .25s}
+.s3-cvbtn:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.s3-r{flex:1;display:flex;flex-direction:column;justify-content:center;padding:5rem 4rem;border-left:1px solid rgba(31,42,35,.06);background:var(--cream2)}
+.s3-tx{font-size:.95rem;font-weight:300;color:rgba(31,42,35,.52);line-height:1.92;margin-bottom:3rem;max-width:420px}
+.s3-tx strong{color:var(--g);font-weight:400}
+.nums-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(31,42,35,.07)}
+.nb{background:var(--cream2);padding:2.5rem 1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center}
+.nb.cl{cursor:pointer;transition:background .3s}
+.nb.cl:hover{background:var(--cream3)}
+.nb.cl:hover .nv{opacity:.7}
+.nb.cl:hover .nc{opacity:1}
+.nb.cl .nc{opacity:.55;transition:opacity .25s}
+.nv{font-family:var(--serif);font-size:clamp(3rem,5vw,4.5rem);font-weight:300;color:var(--g);line-height:1;letter-spacing:-.03em;transition:opacity .25s}
+.nv sup{font-family:var(--sans);font-size:.28em;color:rgba(31,42,35,.38);font-weight:300;vertical-align:super;letter-spacing:0}
+.nl{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(31,42,35,.32);margin-top:.85rem;line-height:1.65;font-weight:300}
+.nn{font-size:.72rem;font-style:italic;font-family:var(--serif);color:rgba(31,42,35,.28);margin-top:.45rem;line-height:1.5}
+.nc{font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g);opacity:.3;margin-top:.6rem;transition:opacity .25s;font-weight:300;display:flex;align-items:center;gap:.35rem;justify-content:center}
+.nc::after{content:'↗';font-size:.62rem}
+
+/* ══ SCREEN 04: PACKAGES ══ */
+#s4{background:var(--cream2);color:var(--g);padding:4.5rem 3.5rem 1rem;gap:1.5rem}
+.s4-hd{display:flex;justify-content:space-between;align-items:flex-end}
+.s4-hd h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,4rem);font-weight:300;color:var(--g);line-height:1.04;letter-spacing:-.02em}
+.s4-hd h2 em{font-style:italic;color:rgba(31,42,35,.28)}
+.s4-hd-r{display:flex;flex-direction:column;align-items:flex-end;gap:.85rem;max-width:280px}
+.s4-hd p{font-size:.82rem;font-weight:300;color:rgba(31,42,35,.38);text-align:right;line-height:1.75;margin:0}
+.s4-meta{display:flex;flex-direction:column;gap:.3rem;align-items:flex-end}
+.s4-meta-item{font-size:.56rem;font-weight:300;color:rgba(31,42,35,.3);letter-spacing:.04em;display:flex;align-items:center;gap:.45rem;text-align:right}
+.s4-meta-item strong{font-weight:400;color:rgba(31,42,35,.48)}
+.s4-retainer{color:rgba(31,42,35,.38)}
+.s4-retainer strong{color:rgba(31,42,35,.55)}
+.s4-dot{display:block;width:3px;height:3px;border-radius:50%;background:rgba(31,42,35,.2);flex-shrink:0}
+.s4-dot-gold{background:var(--gold);opacity:.6}
+.pkg-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(31,42,35,.08);flex:1}
+.s3-case{margin-top:1.5rem;border:.5px solid rgba(31,42,35,.1);padding:1.5rem;background:var(--cream3)}
+.s3-case-lbl{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(31,42,35,.3);font-weight:300;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.s3-case-lbl::before{content:'';width:.75rem;height:1px;background:currentColor;display:block}
+.s3-case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.85rem}
+.s3-case-st{display:flex;flex-direction:column}
+.s3-case-v{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--g);line-height:1;letter-spacing:-.02em}
+.s3-case-n{font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(31,42,35,.32);margin-top:.35rem;line-height:1.5;font-weight:300}
+.s3-case-q{font-size:.78rem;font-weight:300;color:rgba(31,42,35,.38);line-height:1.75;font-style:italic;border-top:.5px solid rgba(31,42,35,.08);padding-top:.85rem}
+.pk{background:var(--cream2);padding:1.25rem 1.25rem;display:flex;flex-direction:column;transition:background .3s}
+.pk:hover{background:var(--cream3)}
+.pk.f{background:var(--g);border-top:1.5px solid var(--gold)}
+.pk.f:hover{background:var(--g2)}
+.pk-tag{font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(31,42,35,.3);font-weight:300;margin-bottom:.75rem}
+.pk.f .pk-tag{color:rgba(231,216,181,.32)}
+.pk-hot{display:inline-block;background:rgba(231,216,181,.1);color:var(--gold);font-size:.52rem;letter-spacing:.13em;text-transform:uppercase;padding:.18rem .55rem;margin-bottom:.75rem}
+.pk-nm{font-family:var(--serif);font-size:1.25rem;font-weight:300;color:var(--g);margin-bottom:.15rem}
+.pk.f .pk-nm{color:var(--cream)}
+.pk-dur{font-size:.58rem;color:rgba(31,42,35,.28);margin-bottom:.65rem;font-weight:300}
+.pk.f .pk-dur{color:rgba(245,242,234,.22)}
+.pk-pr{font-family:var(--serif);font-size:1.85rem;font-weight:300;color:var(--g);line-height:1;letter-spacing:-.02em}
+.pk.f .pk-pr{color:var(--gold)}
+.pk-rng{font-size:.72rem;color:rgba(31,42,35,.28);font-family:var(--sans)}
+.pk.f .pk-rng{color:rgba(231,216,181,.28)}
+.pk-nt{font-size:.58rem;color:rgba(31,42,35,.22);margin:.2rem 0 .85rem;font-weight:300}
+.pk.f .pk-nt{color:rgba(245,242,234,.2)}
+.pk-sep{width:1.2rem;height:1px;background:rgba(31,42,35,.1);margin-bottom:.85rem}
+.pk.f .pk-sep{background:rgba(231,216,181,.12)}
+.pk-ul{list-style:none;flex:1;display:flex;flex-direction:column;gap:.45rem;margin-bottom:1rem}
+.pk-ul li{font-size:.68rem;color:rgba(31,42,35,.45);display:flex;gap:.45rem;line-height:1.45;font-weight:300}
+.pk.f .pk-ul li{color:rgba(245,242,234,.35)}
+.pk-ul li::before{content:'-';color:var(--gold);opacity:.45;flex-shrink:0}
+.pk-cta{display:block;text-align:center;border:.5px solid rgba(31,42,35,.16);color:rgba(31,42,35,.48);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;padding:.65rem;font-weight:300;transition:all .3s;font-family:var(--sans)}
+.pk-cta:hover{background:var(--g);color:var(--cream);border-color:var(--g)}
+.pk.f .pk-cta{background:var(--gold);color:rgba(31,42,35,.88);border-color:var(--gold);font-weight:400}
+.pk.f .pk-cta:hover{background:var(--gold2);border-color:var(--gold2)}
+.pk-from{font-family:var(--sans);font-size:.58rem;font-weight:300;letter-spacing:.06em;opacity:.45;vertical-align:middle;margin-right:.1em}
+.pk.f .pk-from{color:rgba(231,216,181,.5)}
+.s4-scope{font-size:.52rem;font-weight:300;color:rgba(31,42,35,.22);letter-spacing:.08em;text-align:center;padding:.4rem 0}
+.s4-vat{position:absolute;bottom:1.2rem;right:1.75rem;font-size:.5rem;font-weight:300;color:rgba(31,42,35,.45);letter-spacing:.08em}
+
+/* ══ SCREEN 05: CTA ══ */
+#s5{background:var(--cream2);color:var(--g);align-items:center;justify-content:center;text-align:center;padding:2rem 3.5rem 0;overflow:hidden}
+.s5-wm{position:absolute;left:50%;bottom:-.15em;transform:translateX(-50%);font-family:var(--serif);font-size:52vw;font-weight:300;color:rgba(31,42,35,.04);line-height:.85;pointer-events:none;user-select:none;letter-spacing:-.03em;white-space:nowrap}
+.s5-lb{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(31,42,35,.28);font-weight:300;display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;justify-content:center}
+.s5-lb::before,.s5-lb::after{content:'';display:block;width:.9rem;height:1px;background:rgba(31,42,35,.18)}
+.s5-h{font-family:var(--serif);font-size:clamp(4rem,10vw,9.5rem);font-weight:300;color:var(--g);line-height:1.02;letter-spacing:-.025em;margin-bottom:.75rem}
+.s5-h em{display:block;font-style:italic;color:rgba(31,42,35,.25)}
+.s5-p{font-size:.93rem;font-weight:300;color:rgba(31,42,35,.45);line-height:1.82;max-width:360px;margin:0 auto .6rem}
+.s5-free{font-size:.58rem;font-weight:300;color:rgba(31,42,35,.28);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
+.s5-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.s5-foot{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3.5rem}
+.s5-copy{font-size:.58rem;color:rgba(31,42,35,.22);letter-spacing:.08em;font-weight:300;margin-top:.28rem}
+.s5-lks{display:flex;gap:1.75rem}
+.s5-lks a,.s5-lks button{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(31,42,35,.45);text-decoration:none;transition:color .2s;font-weight:300;background:none;border:none;cursor:pointer;font-family:var(--sans)}
+.s5-lks a:hover,.s5-lks button:hover{color:var(--g)}
+
+/* MODALS */
+.ov{position:fixed;inset:0;background:rgba(8,14,9,.93);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease}
+.ov.open{opacity:1;pointer-events:all}
+.mbox{background:var(--g);border:1px solid rgba(231,216,181,.1);max-width:640px;width:92%;max-height:88vh;overflow-y:auto;position:relative;transform:translateY(14px);transition:transform .4s var(--ease)}
+.ov.open .mbox{transform:none}
+.mx{position:absolute;top:1.25rem;right:1.5rem;background:none;border:none;font-size:1.75rem;cursor:pointer;color:rgba(245,242,234,.22);line-height:1;transition:color .2s;font-family:sans-serif;font-weight:200}
+.mx:hover{color:var(--gold)}
+.mhd{padding:2.5rem 2.5rem 0}
+.mlb{font-size:.55rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(231,216,181,.28);font-weight:300;display:flex;align-items:center;gap:.65rem;margin-bottom:1.2rem}
+.mlb::before{content:'';width:.85rem;height:1px;background:currentColor;display:block}
+.mttl{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--cream);margin-bottom:2.25rem;letter-spacing:-.01em}
+.mbd{padding:0 2.5rem 2.5rem}
+.cvi{display:grid;grid-template-columns:1.2rem 1fr;gap:1rem;padding:1.6rem 0;border-bottom:1px solid rgba(231,216,181,.07)}
+.cvi:first-child{border-top:1px solid rgba(231,216,181,.07)}
+.cvd{width:.4rem;height:.4rem;background:var(--gold);border-radius:50%;opacity:.38;margin-top:.5rem;flex-shrink:0}
+.cvrole{font-family:var(--serif);font-size:1.05rem;font-weight:300;color:var(--cream);margin-bottom:.22rem}
+.cvco{font-size:.76rem;font-weight:300;color:rgba(231,216,181,.52);margin-bottom:.2rem}
+.cvper{font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,242,234,.18);font-weight:300;margin-bottom:.62rem}
+.cvtxt{font-size:.76rem;font-weight:300;color:rgba(245,242,234,.33);line-height:1.78}
+.cvbs{display:flex;flex-wrap:wrap;gap:.32rem;margin-top:.55rem}
+.cvb{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;border:.5px solid rgba(231,216,181,.13);color:rgba(231,216,181,.35);padding:.18rem .52rem;font-weight:300}
+.lbox{background:var(--cream2)}
+.lbox .mttl,.lbox .mlb{color:rgba(31,42,35,.7)}
+.lbox .mlb::before{background:rgba(31,42,35,.3)}
+.lbox .mx{color:rgba(31,42,35,.28)}
+.lbox .mx:hover{color:var(--g)}
+.lb{margin-bottom:1.4rem}
+.lb h3{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(31,42,35,.32);font-weight:300;margin-bottom:.42rem}
+.lb p,.lb address{font-size:.8rem;color:rgba(31,42,35,.52);line-height:1.75;font-style:normal;font-weight:300}
+.lb a{color:var(--g);text-decoration:underline;text-decoration-color:rgba(31,42,35,.2)}
+
+@media(max-width:900px){
+  nav{padding:1.1rem 1.75rem}
+  #s1{padding:0 1.75rem 4rem}
+  .s1-h1 .r1,.s1-h1 .r2{font-size:clamp(2.8rem,10vw,5rem)}
+  .s1-h1 .r3{font-size:clamp(1.2rem,4.5vw,1.8rem)}
+  .s1-bot{flex-direction:column;align-items:flex-start;gap:1.75rem}
+  #s2{padding:6rem 1.75rem 2rem;gap:2rem}
+  .s2-hd{flex-direction:column;align-items:flex-start;gap:1rem}
+  .s2-sub{text-align:left;max-width:100%}
+  .s2-grid{grid-template-columns:1fr 1fr}
+  #s3{flex-direction:column}
+  .s3-l{flex:none;padding:4.5rem 1.75rem 2.5rem}
+  .s3-r{padding:2rem 1.75rem}
+  .nums-row{grid-template-columns:1fr 1fr}
+  .nb:last-child{display:none}
+  #s4{padding:6rem 1.75rem 2rem;gap:2rem}
+  .s4-hd{flex-direction:column;align-items:flex-start;gap:1rem}
+  .s4-hd p{text-align:left;max-width:100%}
+  .pkg-row{grid-template-columns:1fr 1fr}
+  .s3-case-stats{grid-template-columns:1fr 1fr}
+  #s5{padding:3rem 1.75rem}
+  .s5-foot{left:0;right:0;padding:1.5rem 1.75rem}
+  .dots{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <button class="logo" onclick="goTo(0)"><b>VIA</b> by Koester</button>
+  <div class="nav-r">
+    <button class="na" onclick="goTo(1)">Services</button>
+    <button class="na" onclick="goTo(2)">About</button>
+    <button class="na" onclick="goTo(3)">Packages</button>
+    <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="nav-cta"><span>Book a Call</span><em>↗</em></a>
+  </div>
+</nav>
+
+<div class="dots" id="dots">
+  <button class="dot on" onclick="goTo(0)"></button>
+  <button class="dot" onclick="goTo(1)"></button>
+  <button class="dot" onclick="goTo(2)"></button>
+  <button class="dot" onclick="goTo(3)"></button>
+  <button class="dot" onclick="goTo(4)"></button>
+</div>
+
+<div class="sh" id="sh"><span>Scroll</span></div>
+
+<div class="snap" id="snap">
+
+<!-- 01 HERO -->
+<section class="screen" id="s1">
+  <div class="s1-bg">
+
+    <!-- Primary VIA mark — large, slow orbital drift
+         ViewBox: 880 × 420
+         Stroke-width 44px = ~5% of width (matches logo weight)
+         V:  top-left(44,24) → bottom-apex(198,396) → top-right(352,24)
+         I:  vertical bar at x=440, y 24→396
+         A:  brand Λ - bottom-left(528,396) → top-apex(682,24) → bottom-right(836,396)
+             NO crossbar - pure inverted-V, identical stroke weight
+    -->
+    <div class="s1-via-wrap">
+      <svg viewBox="0 0 880 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="via-v">
+          <polyline
+            points="44,24 198,396 352,24"
+            stroke="rgba(231,216,181,.11)"
+            stroke-width="44"
+            stroke-linecap="butt"
+            stroke-linejoin="miter"
+            stroke-miterlimit="10"/>
+        </g>
+        <g class="via-i">
+          <line
+            x1="440" y1="24" x2="440" y2="396"
+            stroke="rgba(231,216,181,.11)"
+            stroke-width="44"
+            stroke-linecap="butt"/>
+        </g>
+        <g class="via-a">
+          <polyline
+            points="528,396 682,24 836,396"
+            stroke="rgba(231,216,181,.11)"
+            stroke-width="44"
+            stroke-linecap="butt"
+            stroke-linejoin="miter"
+            stroke-miterlimit="10"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Depth layer — smaller, opposite drift phase, creates parallax -->
+    <div class="s1-via-wrap2">
+      <svg viewBox="0 0 880 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <polyline
+            points="44,24 198,396 352,24"
+            stroke="rgba(231,216,181,.055)"
+            stroke-width="44"
+            stroke-linecap="butt"
+            stroke-linejoin="miter"
+            stroke-miterlimit="10"/>
+          <line
+            x1="440" y1="24" x2="440" y2="396"
+            stroke="rgba(231,216,181,.055)"
+            stroke-width="44"
+            stroke-linecap="butt"/>
+          <polyline
+            points="528,396 682,24 836,396"
+            stroke="rgba(231,216,181,.055)"
+            stroke-width="44"
+            stroke-linecap="butt"
+            stroke-linejoin="miter"
+            stroke-miterlimit="10"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="s1-hl"></div>
+  </div>
+  <div class="s1-ov"></div>
+  <div class="s1-wm"></div>
+  <div class="s1-c">
+    <div class="s1-tag"><div class="s1-bar"></div><span class="s1-txt">Private Villas · Apartments · Short-Term Rentals · Europe & Asia</span></div>
+    <h1 class="s1-h1">
+      <span class="rw"><span class="ri r1">Your property could earn more.</span></span>
+      <span class="rw"><span class="ri r2">Most don't know why it doesn't.</span></span>
+      <span class="rw"><span class="ri r3">I find it. I fix it. Remotely.</span></span>
+    </h1>
+    <div class="s1-bot">
+      <p class="s1-desc">Wrong pricing, weak listings, no system behind the guest experience. I've seen it from both sides - as a 5-star operator and as an active Airbnb Superhost with a 4.94 rating. I know exactly what's missing.</p>
+      <div class="s1-btns">
+        <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="btn-g"><span>Book a Free Review</span><em>↗</em></a>
+        <button class="btn-ol" onclick="goTo(3)">View Packages</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 SERVICES -->
+<section class="screen" id="s2">
+  <div class="s2-hd">
+    <h2>What I do.<br><em>What it changes.</em></h2>
+    <p class="s2-sub">Four disciplines. Each built for private property owners who want to earn more from their short-term rental.</p>
+  </div>
+  <div class="s2-grid">
+    <div class="svc">
+      <span class="svc-n">01</span>
+      <div class="svc-ti">Positioning & Revenue Strategy</div>
+      <div class="svc-bd">Before you list, know what you're building. Local market analysis, guest segmentation, pricing corridor and a seasonal calendar built for Vietnam - including TET and peak demand periods. The foundation every other decision stands on.</div>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="svc-lk">Book a Free Review ↗</a>
+    </div>
+    <div class="svc">
+      <span class="svc-n">02</span>
+      <div class="svc-ti">Listing & Platform Setup</div>
+      <div class="svc-bd">Your property, live and converting. High-performance listings written for international guests across Airbnb, Booking.com and Agoda. Keyword-optimised, algorithm-ready, with dynamic pricing logic your numbers will reflect from the first booking.</div>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="svc-lk">Book a Free Review ↗</a>
+    </div>
+    <div class="svc">
+      <span class="svc-n">03</span>
+      <div class="svc-ti">Operations & Guest Experience</div>
+      <div class="svc-bd">The system behind the rating. Cleaning workflows, check-in process, guest communication templates and visual SOPs your local staff can follow without English. Built to protect your rating and run without you watching.</div>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="svc-lk">Book a Free Review ↗</a>
+    </div>
+    <div class="svc">
+      <span class="svc-n">04</span>
+      <div class="svc-ti">Performance Monitoring</div>
+      <div class="svc-bd">After launch, the real work starts. Monthly booking analysis, demand-based pricing adjustments, listing optimisation from real data and direct access to me - no tickets, no delays. One page. Clear actions. Every month.</div>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="svc-lk">Book a Free Review ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ABOUT -->
+<section class="screen" id="s3">
+  <div class="s3-l">
+    <div class="s3-bg">E</div>
+    <div class="s3-nm">Elias Pereira Köster<em>Founder · VIA by Koester</em></div>
+    <div class="s3-rl">Hamburg, Germany</div>
+    <div class="s3-tgs">
+      <span class="s3-tg">Active Airbnb Host</span>
+      <span class="s3-tg">OTA & Listings</span>
+      <span class="s3-tg">Guest Standards</span>
+      <span class="s3-tg">Europe & Asia</span>
+    </div>
+    <div class="s3-q">I don't just consult. I operate.<br><em>I manage my own Airbnb with a 4.94 rating across 70+ bookings. The same systems I offer my clients - I apply every single day. That's not a credential. That's proof.</em></div>
+    <a href="https://www.airbnb.de/rooms/981605097840747390" target="_blank" class="s3-cvbtn">View my Airbnb listing ↗</a>
+  </div>
+  <div class="s3-r">
+    <p class="s3-tx">Seven years in European 4 and 5-star hospitality taught me what international guests expect. Running my own Airbnb taught me what it takes to deliver it consistently - without a team, without a front desk, without a manager watching. That's the perspective I bring to every mandate. <strong>Not from the outside. From exactly where you are.</strong></p>
+    <div class="nums-row">
+      <div class="nb">
+        <div class="nv">4.94</div>
+        <div class="nl">Airbnb rating<br>own property</div>
+        <div class="nn">Active operator</div>
+      </div>
+      <div class="nb">
+        <div class="nv">70<sup>+</sup></div>
+        <div class="nl">Bookings<br>personally managed</div>
+        <div class="nn">Same market</div>
+      </div>
+      <div class="nb cl" onclick="openCareer()" style="background:var(--cream3);position:relative;border:.5px solid rgba(31,42,35,.08)">
+        <div class="nv" style="color:var(--g)">7<sup style="font-family:var(--sans);font-size:.28em;color:var(--g);opacity:.5;font-weight:300">yr</sup></div>
+        <div class="nl">4 &amp; 5-star<br>hospitality</div>
+        <div class="nc" style="opacity:.65;color:var(--g)">View career</div>
+      </div>
+    </div>
+    <div class="s3-case">
+      <div class="s3-case-lbl">Own Property · Hamburg, Germany · Active since 2023</div>
+      <div class="s3-case-stats">
+        <div class="s3-case-st"><div class="s3-case-v">4.94<span style="font-family:var(--sans);font-size:.5em;opacity:.5"> ★</span></div><div class="s3-case-n">Guest Rating</div></div>
+        <div class="s3-case-st"><div class="s3-case-v">70<sup style="font-family:var(--sans);font-size:.4em;opacity:.5">+</sup></div><div class="s3-case-n">Bookings managed</div></div>
+        <div class="s3-case-st"><div class="s3-case-v" style="font-size:1.1rem;padding-top:.3rem;line-height:1.1">Super-<br>host</div><div class="s3-case-n">Airbnb status</div></div>
+      </div>
+      <div class="s3-case-q">The same system I built for my own listing - I build for yours.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 PACKAGES -->
+<section class="screen" id="s4">
+  <div class="s4-hd">
+    <h2>Your starting<br><em>point.</em></h2>
+    <div class="s4-hd-r">
+      <p>All services delivered remotely. Individually quoted based on property type and scope.</p>
+      <div class="s4-meta">
+        <div class="s4-meta-item s4-retainer"><span class="s4-dot s4-dot-gold"></span>Performance Monitoring available after any completed mandate · From €120/mo</div>
+      </div>
+    </div>
+  </div>
+  <div class="pkg-row">
+    <div class="pk">
+      <div class="pk-tag">Remote Only</div>
+      <div class="pk-nm">Concept &amp; Positioning</div>
+      <div class="pk-nm" style="font-size:.68rem;font-family:var(--sans);font-weight:300;color:rgba(31,42,35,.28);margin-top:-.05rem;margin-bottom:.4rem">Konzept &amp; Positionierung</div>
+      <div class="pk-dur">5-7 working days</div>
+      <div class="pk-pr"><span class="pk-from">From </span>€280</div>
+      <div class="pk-nt">One-time fee · Vietnam rate</div>
+      <div class="pk-sep"></div>
+      <ul class="pk-ul">
+        <li>Local market &amp; competition analysis - city specific</li>
+        <li>Guest segmentation for your property type and location</li>
+        <li>Pricing corridor: minimum, target, maximum</li>
+        <li>Vietnam seasonal calendar incl. TET &amp; peak periods</li>
+        <li>Platform recommendation: Airbnb vs. Booking vs. Agoda</li>
+      </ul>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="pk-cta">Get Started</a>
+    </div>
+    <div class="pk">
+      <div class="pk-tag">Remote Only</div>
+      <div class="pk-nm">Platform Launch</div>
+      <div class="pk-nm" style="font-size:.68rem;font-family:var(--sans);font-weight:300;color:rgba(31,42,35,.28);margin-top:-.05rem;margin-bottom:.4rem">Plattform-Start</div>
+      <div class="pk-dur">7-10 working days</div>
+      <div class="pk-pr"><span class="pk-from">From </span>€450</div>
+      <div class="pk-nt">One-time fee · Vietnam rate</div>
+      <div class="pk-sep"></div>
+      <ul class="pk-ul">
+        <li>High-conversion listing written for Western guests</li>
+        <li>Airbnb + Booking.com + Agoda setup</li>
+        <li>Photo brief + local photographer guidance (Saigon)</li>
+        <li>Dynamic pricing setup - Pricelabs/Wheelhouse ready</li>
+        <li>Booking rules, calendar logic, go-live supervision</li>
+      </ul>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="pk-cta">Get Started</a>
+    </div>
+    <div class="pk">
+      <div class="pk-tag">Remote Only</div>
+      <div class="pk-nm">Operations Build</div>
+      <div class="pk-nm" style="font-size:.68rem;font-family:var(--sans);font-weight:300;color:rgba(31,42,35,.28);margin-top:-.05rem;margin-bottom:.4rem">Betriebsaufbau</div>
+      <div class="pk-dur">10-14 working days</div>
+      <div class="pk-pr"><span class="pk-from">From </span>€550</div>
+      <div class="pk-nt">One-time fee · Vietnam rate</div>
+      <div class="pk-sep"></div>
+      <ul class="pk-ul">
+        <li>Cleaning workflow - visual SOPs for local staff, no English required</li>
+        <li>Check-in process &amp; key handover design</li>
+        <li>Guest communication templates: pre / in-stay / post-stay</li>
+        <li>Western guest expectation guide</li>
+        <li>Vietnam compliance checklist: tax, guest registration, fire safety</li>
+      </ul>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="pk-cta">Get Started</a>
+    </div>
+    <div class="pk f">
+      <div class="pk-hot">Recommended</div>
+      <div class="pk-nm">Full Launch</div>
+      <div class="pk-nm" style="font-size:.68rem;font-family:var(--sans);font-weight:300;color:rgba(231,216,181,.28);margin-top:-.05rem;margin-bottom:.4rem">Komplettstart</div>
+      <div class="pk-dur">3-4 weeks</div>
+      <div class="pk-pr"><span class="pk-from">From </span>€1.200</div>
+      <div class="pk-nt">Fixed fee · Vietnam rate</div>
+      <div class="pk-sep"></div>
+      <ul class="pk-ul">
+        <li>Everything from Concept &amp; Positioning</li>
+        <li>Everything from Platform Launch</li>
+        <li>Everything from Operations Build</li>
+        <li>Go-live supervision - coordinated end to end</li>
+        <li>2-week check-in call after launch</li>
+      </ul>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="pk-cta">Get Started</a>
+    </div>
+    <div class="pk">
+      <div class="pk-tag">Remote · Monthly · After mandate only</div>
+      <div class="pk-nm">Performance Monitoring</div>
+      <div class="pk-nm" style="font-size:.68rem;font-family:var(--sans);font-weight:300;color:rgba(31,42,35,.28);margin-top:-.05rem;margin-bottom:.4rem">Leistungsuberwachung</div>
+      <div class="pk-dur">Ongoing · Cancel anytime</div>
+      <div class="pk-pr"><span class="pk-from">From </span>€120</div>
+      <div class="pk-nt">Per month · Vietnam rate</div>
+      <div class="pk-sep"></div>
+      <ul class="pk-ul">
+        <li>Monthly booking &amp; revenue performance analysis</li>
+        <li>Demand-based pricing adjustments - events, holidays, shifts</li>
+        <li>Listing optimisation from real booking data</li>
+        <li>Review monitoring &amp; response strategy</li>
+        <li>Direct access - WhatsApp/Email, no tickets, 1-page monthly report</li>
+      </ul>
+      <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="pk-cta">Get Started</a>
+    </div>
+  </div>
+  <div class="s4-scope">Timelines subject to project scope</div>
+</section>
+
+<!-- 05 CTA -->
+<section class="screen" id="s5">
+  <div class="s5-wm">VIA</div>
+  <div class="s5-lb">Let's talk</div>
+  <h2 class="s5-h">Your property<br>has <em>potential.</em></h2>
+  <p class="s5-p">Start with a free initial review. I'll tell you honestly what's working, what isn't, and what it would take to fix it.</p>
+  <div class="s5-free">First call always complimentary - no commitment, no pitch.</div>
+  <div class="s5-btns">
+    <a href="https://calendly.com/koesterconsulting-info/30min" target="_blank" class="btn-dk"><span>Book a Free Review</span><em>↗</em></a>
+    <a href="mailto:info@koesterconsulting.eu" class="btn-ol-dk">Send an Email</a>
+  </div>
+  <div class="s5-foot">
+    <div>
+      <div style="font-family:var(--serif);font-size:.92rem;font-style:italic;color:rgba(31,42,35,.38)">VIA by Koester</div>
+      <div class="s5-copy">© 2026 VIA by Koester · Hamburg, Germany</div>
+    </div>
+    <div class="s5-lks">
+      <a href="mailto:info@koesterconsulting.eu">Email</a>
+      <a href="https://www.linkedin.com/in/elias-pereira-k%C3%B6ster-aa2641369" target="_blank">LinkedIn</a>
+      <button onclick="openLegal()">Legal Notice</button>
+      <button onclick="openPrivacy()">Privacy Policy</button>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- CAREER MODAL -->
+<div class="ov" id="cv-modal" onclick="if(event.target===this)closeCV()">
+  <div class="mbox">
+    <button class="mx" onclick="closeCV()">&#215;</button>
+    <div class="mhd">
+      <p class="mlb">Professional Background</p>
+      <h2 class="mttl">7 years in European hospitality.</h2>
+    </div>
+    <div class="mbd">
+      <div class="cvi"><div class="cvd"></div><div>
+        <div class="cvrole">Founder</div>
+        <div class="cvco">VIA by Koester / Köster Consulting · Hamburg, Germany</div>
+        <div class="cvper">2026 - Present</div>
+        <div class="cvtxt">Remote hospitality consulting for private villa and apartment owners in Vietnam. Operational standards, listing setup, pricing structure and guest experience - built from the ground up, not from the outside in. All mandates delivered remotely.</div>
+      </div></div>
+      <div class="cvi"><div class="cvd"></div><div>
+        <div class="cvrole">Short-Term Rental Operator</div>
+        <div class="cvco">Own Airbnb Property · Hamburg, Germany</div>
+        <div class="cvper">2023 - Present · Active</div>
+        <div class="cvtxt">Active operation of own short-term rental on Airbnb. Full responsibility for guest communication, dynamic pricing, listing optimization and quality management. Maintaining a 4.94 guest rating across 70+ bookings - direct application of the same systems offered to consulting clients.</div>
+        <div class="cvbs"><span class="cvb">Superhost</span><span class="cvb">4.94 Guest Rating</span><span class="cvb">70+ Bookings</span><span class="cvb">Active Operator</span></div>
+      </div></div>
+      <div class="cvi"><div class="cvd"></div><div>
+        <div class="cvrole">Freelance Producer</div>
+        <div class="cvco">Photo &amp; Video Production · Hamburg, Germany · Remote</div>
+        <div class="cvper">Jul 2021 - Present</div>
+        <div class="cvtxt">Project-based freelance work in photography and videography. Digital marketing content, visual brand materials and business documentation for clients across various industries.</div>
+        <div class="cvbs"><span class="cvb">Digital Marketing</span><span class="cvb">Visual Production</span></div>
+      </div></div>
+      <div class="cvi"><div class="cvd"></div><div>
+        <div class="cvrole">Senior Reservation Agent</div>
+        <div class="cvco">Althoff Seehotel Überfahrt · Rottach-Egern, Bavaria</div>
+        <div class="cvper">Mar 2020 - Jun 2021 · On-site</div>
+        <div class="cvtxt">On-site reservations at one of Germany's foremost 5-star properties on Lake Tegernsee. Individual and group bookings, OTA strategy and channel optimisation. Daily work with channel manager, PMS and yield reporting. Direct exposure to the operational and guest standards of a Leading Hotels of the World property.</div>
+        <div class="cvbs"><span class="cvb">Leading Hotels of the World</span><span class="cvb">5-Star</span><span class="cvb">Althoff Collection</span></div>
+      </div></div>
+      <div class="cvi"><div class="cvd"></div><div>
+        <div class="cvrole">Reservations Agent</div>
+        <div class="cvco">AMERON Hamburg Hotel Speicherstadt · Althoff Hotels</div>
+        <div class="cvper">Aug 2018 - Feb 2020 · Hamburg, Germany</div>
+        <div class="cvtxt">Reservations at AMERON Hamburg Speicherstadt, part of the Althoff Collection. Individual, corporate and group bookings, OTA management, rate parity control and guest communication. First exposure to multi-property standards and cross-channel booking operations.</div>
+        <div class="cvbs"><span class="cvb">4-Star Superior</span><span class="cvb">Althoff Collection</span></div>
+      </div></div>
+      <div class="cvi"><div class="cvd"></div><div>
+        <div class="cvrole">Hotel Management Professional</div>
+        <div class="cvco">Berufl. Schule Hotellerie, Gastronomie und Lebensmittelhandwerk BS 03 · Hamburg</div>
+        <div class="cvper">Aug 2015 - Jul 2018</div>
+        <div class="cvtxt">Three-year vocational training in hotel management. Front office operations, food and beverage, housekeeping standards, guest relations and hospitality administration.</div>
+        <div class="cvbs"><span class="cvb">Qualified: Hotelfachmann</span></div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEGAL MODAL -->
+<div class="ov" id="legal-modal" onclick="if(event.target===this)closeLegal()">
+  <div class="mbox lbox">
+    <button class="mx" onclick="closeLegal()">&#215;</button>
+    <div class="mhd">
+      <p class="mlb">Impressum</p>
+      <h2 class="mttl">Legal Notice</h2>
+    </div>
+    <div class="mbd">
+      <div class="lb"><h3>Business Name</h3><p>VIA by Koester<br><span style="font-size:.75rem;color:rgba(31,42,35,.4);font-style:italic">VIA by Koester is a brand of Köster Consulting.</span></p></div>
+      <div class="lb"><h3>Owner</h3><p>Elias Verissimo Gilo Pereira Köster</p></div>
+      <div class="lb"><h3>Address</h3><address>Eidelstedter Weg 3<br>20255 Hamburg<br>Germany</address></div>
+      <div class="lb"><h3>Contact</h3><p><a href="mailto:info@koesterconsulting.eu">info@koesterconsulting.eu</a></p></div>
+      <div class="lb"><h3>Business Activity</h3><p>Business Consulting · Hospitality Strategy &amp; Development</p></div>
+      <div class="lb"><h3>Responsible · § 55 (2) RStV</h3><p>Elias Verissimo Gilo Pereira Köster · Address as stated above</p></div>
+      <div class="lb"><h3>Pricing &amp; VAT</h3><p>All prices shown on this website are net amounts and exclude statutory VAT at the applicable rate of 19% (§ 19 UStG does not apply - VIA by Koester is subject to regular VAT). Final pricing is individually quoted per engagement scope.</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var snap=document.getElementById('snap'),dots=document.querySelectorAll('.dot'),sh=document.getElementById('sh'),cur=0,total=5;
+
+function goTo(n){
+  n=Math.max(0,Math.min(total-1,n));
+  cur=n;
+  snap.scrollTo({top:n*window.innerHeight,behavior:'smooth'});
+  updateDots();
+  updateNav();
+  sh.classList.toggle('hide',cur>0);
+}
+
+function updateDots(){
+  dots.forEach(function(d,i){d.classList.toggle('on',i===cur);});
+}
+
+function updateNav(){
+  var light=[1,3,4];
+  var darkCta=[1,2,3,4];
+  var darkNav=[1,2,3,4];
+  var isLight=light.indexOf(cur)!==-1;
+  var isDarkCta=darkCta.indexOf(cur)!==-1;
+  var isDarkNav=darkNav.indexOf(cur)!==-1;
+  document.querySelectorAll('.na').forEach(function(el){el.classList.toggle('dk',isDarkNav);});
+  document.querySelector('.nav-cta').classList.toggle('dk',isDarkCta);
+  document.querySelector('.logo').style.color=isLight?'var(--g)':'var(--cream)';
+  document.querySelector('.logo b').style.color=isLight?'var(--g)':'var(--gold)';
+  dots.forEach(function(d){d.classList.toggle('dk',isLight);});
+}
+
+snap.addEventListener('scroll',function(){
+  var n=Math.round(snap.scrollTop/window.innerHeight);
+  if(n!==cur){cur=n;updateDots();updateNav();sh.classList.toggle('hide',cur>0);}
+});
+
+document.addEventListener('keydown',function(e){
+  var cvO=document.getElementById('cv-modal').classList.contains('open');
+  var lgO=document.getElementById('legal-modal').classList.contains('open');
+  if(e.key==='Escape'){closeCV();closeLegal();closePrivacy();return;}
+  if(cvO||lgO)return;
+  if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();goTo(cur+1);}
+  if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();goTo(cur-1);}
+});
+
+function openCareer(){document.getElementById('cv-modal').classList.add('open');}
+function closeCV(){document.getElementById('cv-modal').classList.remove('open');}
+function openLegal(){document.getElementById('legal-modal').classList.add('open');}
+function closeLegal(){document.getElementById('legal-modal').classList.remove('open');}
+function openPrivacy(){document.getElementById('privacy-modal').classList.add('open');}
+function closePrivacy(){document.getElementById('privacy-modal').classList.remove('open');}
+</script>
+<!-- PRIVACY MODAL -->
+<div class="ov" id="privacy-modal" onclick="if(event.target===this)closePrivacy()">
+  <div class="mbox lbox">
+    <button class="mx" onclick="closePrivacy()">&#215;</button>
+    <div class="mhd">
+      <p class="mlb">Datenschutz</p>
+      <h2 class="mttl">Privacy Policy</h2>
+    </div>
+    <div class="mbd">
+      <div class="lb"><h3>1. Responsible Party</h3><p>Elias Verissimo Gilo Pereira Köster · VIA by Koester / Köster Consulting · Eidelstedter Weg 3, 20255 Hamburg, Germany · info@koesterconsulting.eu</p></div>
+      <div class="lb"><h3>2. Hosting</h3><p>This website is hosted by IONOS SE, Elgendorfer Str. 57, 56410 Montabaur, Germany. When you access this website, IONOS processes server log data including your IP address, browser type and time of access. Legal basis: Art. 6(1)(f) GDPR (legitimate interest in secure website operation). For more information: <a href="https://www.ionos.de/terms-gtc/terms-privacy" target="_blank">ionos.de/terms-gtc/terms-privacy</a>.</p></div>
+      <div class="lb"><h3>3. Google Fonts</h3><p>This website loads fonts externally from Google Fonts (Google LLC, USA). Your browser transmits your IP address to Google servers on page load. Legal basis: Art. 6(1)(f) GDPR. Google may transfer data to the USA under standard contractual clauses. More information: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.</p></div>
+      <div class="lb"><h3>4. External Links</h3><p>This website contains links to Calendly, LinkedIn, Althoff Seehotel Überfahrt, AMERON Collection and Loberon. Clicking these links leaves this website. We have no control over data practices on external sites and assume no liability for their content. Please review their privacy policies directly.</p></div>
+      <div class="lb"><h3>5. Contact by Email</h3><p>If you contact us by email, your message and associated personal data are stored solely to process your inquiry. Data is deleted once the matter is resolved. Legal basis: Art. 6(1)(b) GDPR.</p></div>
+      <div class="lb"><h3>6. No Tracking or Cookies</h3><p>This website does not use cookies, analytics tools, tracking pixels or advertising scripts of any kind. No data is collected for marketing or profiling purposes.</p></div>
+      <div class="lb"><h3>7. Your Rights</h3><p>Under GDPR you have the right to access, rectification, erasure, restriction of processing and data portability regarding your personal data. You may also lodge a complaint with the Hamburg data protection authority: <a href="https://datenschutz.hamburg.de" target="_blank">datenschutz.hamburg.de</a>. To exercise your rights contact: info@koesterconsulting.eu</p></div>
+      <div class="lb"><h3>8. Last Updated</h3><p>April 2026</p></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
