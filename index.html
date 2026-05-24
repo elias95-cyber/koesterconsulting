@@ -369,13 +369,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.75rem 3.5rem;displ
 @media(max-width:520px){
 
   /* Unlock body scroll */
-  html,body{height:auto;overflow:visible;overflow-x:hidden;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+  html,body{height:auto;overflow:visible;overflow-x:hidden}
 
   /* Hide desktop chrome */
   .snap,nav#nav,.dots,.sh{display:none!important}
 
   /* Show mobile layout */
-  #mob{display:block;background:var(--g);scroll-behavior:smooth}
+  #mob{display:block;background:var(--g)}
 
   /* ── MOB NAV ── */
   #mob-nav{
@@ -1260,55 +1260,50 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.75rem 3.5rem;displ
 </div>
 
 <script>
-var snap=document.getElementById('snap'),dots=document.querySelectorAll('.dot'),sh=document.getElementById('sh'),cur=0,total=5;
-
-function goTo(n){
-  n=Math.max(0,Math.min(total-1,n));
-  cur=n;
-  snap.scrollTo({top:n*window.innerHeight,behavior:'smooth'});
-  updateDots();
-  updateNav();
-  sh.classList.toggle('hide',cur>0);
-}
-
-function updateDots(){
-  dots.forEach(function(d,i){d.classList.toggle('on',i===cur);});
-}
-
-function updateNav(){
-  var light=[1,3,4];
-  var darkCta=[1,2,3,4];
-  var darkNav=[1,2,3,4];
-  var isLight=light.indexOf(cur)!==-1;
-  var isDarkCta=darkCta.indexOf(cur)!==-1;
-  var isDarkNav=darkNav.indexOf(cur)!==-1;
-  document.querySelectorAll('.na').forEach(function(el){el.classList.toggle('dk',isDarkNav);});
-  document.querySelector('.nav-cta').classList.toggle('dk',isDarkCta);
-  document.querySelector('.logo').style.color=isLight?'var(--g)':'var(--cream)';
-  document.querySelector('.logo b').style.color=isLight?'var(--g)':'var(--gold)';
-  dots.forEach(function(d){d.classList.toggle('dk',isLight);});
-}
-
-snap.addEventListener('scroll',function(){
-  var n=Math.round(snap.scrollTop/window.innerHeight);
-  if(n!==cur){cur=n;updateDots();updateNav();sh.classList.toggle('hide',cur>0);}
-});
-
-document.addEventListener('keydown',function(e){
-  var cvO=document.getElementById('cv-modal').classList.contains('open');
-  var lgO=document.getElementById('legal-modal').classList.contains('open');
-  if(e.key==='Escape'){closeCV();closeLegal();closePrivacy();return;}
-  if(cvO||lgO)return;
-  if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();goTo(cur+1);}
-  if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();goTo(cur-1);}
-});
-
+/* Modal functions — needed on both desktop and mobile */
 function openCareer(){document.getElementById('cv-modal').classList.add('open');}
 function closeCV(){document.getElementById('cv-modal').classList.remove('open');}
 function openLegal(){document.getElementById('legal-modal').classList.add('open');}
 function closeLegal(){document.getElementById('legal-modal').classList.remove('open');}
 function openPrivacy(){document.getElementById('privacy-modal').classList.add('open');}
 function closePrivacy(){document.getElementById('privacy-modal').classList.remove('open');}
+
+/* Desktop snap-scroll logic — skip entirely on mobile */
+if(window.innerWidth>520){
+  var snap=document.getElementById('snap'),dots=document.querySelectorAll('.dot'),sh=document.getElementById('sh'),cur=0,total=5;
+  function goTo(n){
+    n=Math.max(0,Math.min(total-1,n));
+    cur=n;
+    snap.scrollTo({top:n*window.innerHeight,behavior:'smooth'});
+    updateDots();
+    updateNav();
+    sh.classList.toggle('hide',cur>0);
+  }
+  function updateDots(){
+    dots.forEach(function(d,i){d.classList.toggle('on',i===cur);});
+  }
+  function updateNav(){
+    var light=[1,3,4],darkCta=[1,2,3,4],darkNav=[1,2,3,4];
+    var isLight=light.indexOf(cur)!==-1;
+    document.querySelectorAll('.na').forEach(function(el){el.classList.toggle('dk',darkNav.indexOf(cur)!==-1);});
+    document.querySelector('.nav-cta').classList.toggle('dk',darkCta.indexOf(cur)!==-1);
+    document.querySelector('.logo').style.color=isLight?'var(--g)':'var(--cream)';
+    document.querySelector('.logo b').style.color=isLight?'var(--g)':'var(--gold)';
+    dots.forEach(function(d){d.classList.toggle('dk',isLight);});
+  }
+  snap.addEventListener('scroll',function(){
+    var n=Math.round(snap.scrollTop/window.innerHeight);
+    if(n!==cur){cur=n;updateDots();updateNav();sh.classList.toggle('hide',cur>0);}
+  });
+  document.addEventListener('keydown',function(e){
+    var cvO=document.getElementById('cv-modal').classList.contains('open');
+    var lgO=document.getElementById('legal-modal').classList.contains('open');
+    if(e.key==='Escape'){closeCV();closeLegal();closePrivacy();return;}
+    if(cvO||lgO)return;
+    if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();goTo(cur+1);}
+    if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();goTo(cur-1);}
+  });
+}
 </script>
 
 <!-- PRIVACY MODAL -->
@@ -1335,6 +1330,14 @@ function closePrivacy(){document.getElementById('privacy-modal').classList.remov
 <!-- MOBILE-ONLY JS — all wrapped in width guard -->
 <script>
 if(window.innerWidth<=520){
+
+  /* Remove desktop snap layout from DOM — prevents browser from
+     initialising snap-scroll context and running layout on hidden content */
+  ['snap','nav','sh'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.remove();
+  });
+  document.querySelectorAll('.dots').forEach(function(el){el.remove();});
 
   /* Wrap accordion bodies for CSS grid animation */
   document.querySelectorAll('.mob-svc-body,.mob-pk-body').forEach(function(body){
